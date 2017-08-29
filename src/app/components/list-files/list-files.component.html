@@ -1,0 +1,29 @@
+<div class="tab-content" id="list-tab">
+  <div class="tab-pane fade show active" id="file-list" role="tabpanel" aria-labelledby="file-list">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Size</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let file of files">
+      <tr>
+        <th scope="row">
+          <input type="checkbox" name="files" value="{{file.id}}" (change)="this.fileService.setSelections(file.id,$event)">
+        </th>
+        <td *ngIf="file.isFolder;else fileIcon">
+          <i class="fa fa-folder-open-o" aria-hidden="true"></i> {{file.name}}
+        </td>
+        <ng-template #fileIcon>
+          <td><i class="fa fa-file-o" aria-hidden="true"></i> {{file.name}}</td>
+        </ng-template>
+        <td>{{file.type}}</td>
+        <td>{{file.size}}KB</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
