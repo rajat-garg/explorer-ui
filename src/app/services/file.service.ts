@@ -40,6 +40,7 @@ export class FileService {
   }
 
   getSelections(): string[] {
+    console.log(this._selections);
     return this._selections;
   }
 }

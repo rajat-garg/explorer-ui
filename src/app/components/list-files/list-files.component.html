@@ -12,7 +12,7 @@
       <tbody *ngFor="let file of files">
       <tr>
         <th scope="row">
-          <input type="checkbox" name="files" value="{{file.id}}" (change)="this.fileService.setSelections(file.id,$event)">
+          <input type="checkbox" name="files" value="{{file.id}}" (change)="fileService.setSelections(file.id,$event)">
         </th>
         <td *ngIf="file.isFolder;else fileIcon">
           <i class="fa fa-folder-open-o" aria-hidden="true"></i> {{file.name}}
