@@ -3,6 +3,7 @@ import {RenameComponent} from './../rename/rename.component';
 import {FileService} from './../../services/file.service';
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {DuplicateComponent} from "../duplicate/duplicate.component";
 
 @Component({
   selector: 'app-toolbar',
@@ -16,37 +17,37 @@ export class ToolbarComponent implements OnInit {
   private toolbarButtons: any[];
 
   constructor(private fileService: FileService, private modalService: NgbModal) {
-     this.toolbarButtons = [{
-       'icon': 'fa fa-share-alt',
-       'command': 'Share',
-       'click': this.shareFile
-     },
-       {
-         'icon': 'fa fa-download',
-         'command': 'Download',
-         'click': this.downloadFile
-       },
-       {
-         'icon': 'fa fa-pencil-square-o',
-         'command': 'Rename',
-         'click': this.renameFile
-       },
-       {
-         'icon': 'fa fa-folder-o',
-         'command': 'Move',
-         'click': this.moveFile
-       },
-       {
-         'icon': 'fa fa-files-o',
-         'command': 'Make a Copy',
-         'click': this.duplicateFile
-       },
-       {
-         'icon': 'fa fa-trash-o',
-         'command': 'Trash',
-         'click': this.deleteFile
-       }
-     ]
+    this.toolbarButtons = [{
+      'icon': 'fa fa-share-alt',
+      'command': 'Share',
+      'click': this.shareFile
+    },
+      {
+        'icon': 'fa fa-download',
+        'command': 'Download',
+        'click': this.downloadFile
+      },
+      {
+        'icon': 'fa fa-pencil-square-o',
+        'command': 'Rename',
+        'click': this.renameFile.bind(this)
+      },
+      {
+        'icon': 'fa fa-folder-o',
+        'command': 'Move',
+        'click': this.moveFile
+      },
+      {
+        'icon': 'fa fa-files-o',
+        'command': 'Make a Copy',
+        'click': this.duplicateFile
+      },
+      {
+        'icon': 'fa fa-trash-o',
+        'command': 'Trash',
+        'click': this.deleteFile
+      }
+    ]
   }
 
   ngOnInit() {
@@ -77,7 +78,8 @@ export class ToolbarComponent implements OnInit {
     return "";
   }
 
-  duplicateFile(): string {
-    return "";
+  duplicateFile(): void {
+    // this.modalService.open(DuplicateComponent);
+    this.fileService.duplicateFile("1");
   }
 }

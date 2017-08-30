@@ -12,6 +12,9 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { RenameComponent } from './components/rename/rename.component';
 import { DeleteComponent } from './components/delete/delete.component';
+import { DuplicateComponent } from './components/duplicate/duplicate.component';
+import { SharedFileComponent } from './components/shared-file/shared-file.component';
+import { TrashedFileComponent } from './components/trashed-file/trashed-file.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,9 @@ import { DeleteComponent } from './components/delete/delete.component';
     ToolbarComponent,
     RenameComponent,
     DeleteComponent,
+    DuplicateComponent,
+    SharedFileComponent,
+    TrashedFileComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,17 +4,18 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class FileService {
-  private _selections: string[] = [];
+  private _selections: string[];
 
   constructor(private http: Http) {
     console.log('File Service Initialized...');
+    this._selections = [];
   }
 
   getFilesBelongsToAUser() {
     return this.http.get('http://localhost:8080/rest/users/2/files').map(res => res.json());
   }
 
-  renameFile(fileId: number, fileName: string) {
+  renameFile(fileId: string, fileName: string) {
     let data = {"name": fileName};
     this.http.patch('http://localhost:8080/rest/files/' + fileId + '/rename', JSON.stringify(data), new RequestOptions({
       headers: new Headers({
@@ -30,17 +31,30 @@ export class FileService {
     this.http.delete('http://localhost:8080/rest/files/');
   }
 
-  setSelections(fileId: string, event: any) {
-    if (event.target.checked)
-      this._selections.push(fileId);
-    else if (!event.target.checked) {
-      this._selections = this._selections.filter(e => e !== fileId);
-    }
-    console.log(this._selections);
+  setSelections(fileIds: string[]) {
+    this._selections = fileIds;
   }
 
   getSelections(): string[] {
-    console.log(this._selections);
     return this._selections;
+  }
+
+  duplicateFile(fileId: string) {
+    this.http.patch('http://localhost:8080/rest/files/' + fileId + '/copy', new RequestOptions({
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      })
+    })).subscribe(m => {
+      console.log(m);
+    });
+  }
+
+  getSharedFiles() {
+    return this.http.get('http://localhost:8080/rest/users/2/sharedFiles').map(res => res.json());
+  }
+
+  getTrashedFiles() {
+    return this.http.get('http://localhost:8080/rest/users/2/sharedFiles').map(res => res.json());
   }
 }

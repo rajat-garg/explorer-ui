@@ -1,14 +1,15 @@
 import {FileService} from './../../services/file.service';
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 
 @Component({
   selector: 'app-list-files',
   templateUrl: './list-files.component.html',
-  styleUrls: ['./list-files.component.css'],
-  providers: [FileService]
+  styleUrls: ['./list-files.component.css']
 })
 export class ListFilesComponent implements OnInit {
   private files: file[];
+  @ViewChild('fileListTable') fileListEl: ElementRef;
+
 
   constructor(private fileService: FileService) {
     this.fileService.getFilesBelongsToAUser().subscribe(files => {
@@ -16,11 +17,26 @@ export class ListFilesComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+
+  }
+
   ngOnInit() {
+  }
+
+
+  onSelectionChange() {
+    // this.fileService.setSelections(this.input.nativeElement.value);
+    let x = this.fileListEl.nativeElement.querySelectorAll('input:checked');
+    let fileIds: string[] = [];
+    for (let i = 0; i < x.length; i++) {
+      fileIds.push(x[i].value);
+    }
+    this.fileService.setSelections(fileIds);
   }
 }
 
-interface file {
+export interface file {
   id: number;
   name: string;
   type: string;
@@ -33,7 +49,7 @@ interface file {
   folder: boolean;
 }
 
-interface metadata {
+export interface metadata {
   id: number;
   userId: number;
   ownerId: number;

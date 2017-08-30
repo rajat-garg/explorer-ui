@@ -11,7 +11,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class RenameComponent implements OnInit {
   @Input() name: string;
-  @Input() fileId: number;
+  @Input() fileId: string[];
 
 
   constructor(public activeModal: NgbActiveModal, public fileService: FileService) {
@@ -21,7 +21,8 @@ export class RenameComponent implements OnInit {
   }
 
   renameFile(name: string): string {
-    this.fileService.renameFile(1, name);
+    this.fileId = this.fileService.getSelections();
+    this.fileService.renameFile(this.fileId[0], name);
     return "Renamed Successfully";
   }
 }

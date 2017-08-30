@@ -1,5 +1,8 @@
 <ul class="nav flex-column" *ngFor="let button of toolbarButtons">
   <li class="nav-item">
-    <a class="nav-link" [attr.href]="isDisabled() ? null : '#'" [class.disabled]="isDisabled()" (click)="!isDisabled() && button.click()" ><i class={{button.icon}}   aria-hidden="true"></i> {{button.command}}</a>
+    <a class="nav-link" [attr.href]="isDisabled() ? null : '#'"
+       [class.disabled]="isDisabled() ||( button.command == 'Rename' && selections.length > 1)"
+       (click)="!isDisabled() && button.click()"><i
+      class={{button.icon}} aria-hidden="true"></i> {{button.command}}</a>
   </li>
 </ul>
