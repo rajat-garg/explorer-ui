@@ -15,6 +15,10 @@ export class FileService {
     return this.http.get('http://localhost:8080/rest/users/2/files').map(res => res.json());
   }
 
+  refreshFileList() {
+    this.getFilesBelongsToAUser();
+  }
+
   renameFile(fileId: string, fileName: string) {
     let data = {"name": fileName};
     this.http.patch('http://localhost:8080/rest/files/' + fileId + '/rename', JSON.stringify(data), new RequestOptions({
@@ -25,10 +29,17 @@ export class FileService {
     })).subscribe((m) => {
       console.log(m)
     });
+    this.refreshFileList();
   }
 
-  deleteFile(fileId: number) {
-    this.http.delete('http://localhost:8080/rest/files/');
+  deleteFile() {
+    let fileIds = this.getSelections();
+    for (let index = 0; index < fileIds.length; index++) {
+      console.log(fileIds[index]);
+      this.http.delete('http://localhost:8080/rest/files/2/' + fileIds[index])
+        .map(res => JSON.stringify(res))
+        .subscribe();
+    }
   }
 
   setSelections(fileIds: string[]) {
@@ -40,7 +51,7 @@ export class FileService {
   }
 
   duplicateFile(fileId: string) {
-    this.http.patch('http://localhost:8080/rest/files/' + fileId + '/copy', new RequestOptions({
+    this.http.post('http://localhost:8080/rest/files/' + fileId + '/copy', new RequestOptions({
       headers: new Headers({
         'Content-Type': 'application/json',
         'Accept': 'application/json'

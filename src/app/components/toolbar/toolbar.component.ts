@@ -3,7 +3,6 @@ import {RenameComponent} from './../rename/rename.component';
 import {FileService} from './../../services/file.service';
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {DuplicateComponent} from "../duplicate/duplicate.component";
 
 @Component({
   selector: 'app-toolbar',
@@ -20,12 +19,12 @@ export class ToolbarComponent implements OnInit {
     this.toolbarButtons = [{
       'icon': 'fa fa-share-alt',
       'command': 'Share',
-      'click': this.shareFile
+      'click': this.shareFile.bind(this)
     },
       {
         'icon': 'fa fa-download',
         'command': 'Download',
-        'click': this.downloadFile
+        'click': this.downloadFile.bind(this)
       },
       {
         'icon': 'fa fa-pencil-square-o',
@@ -35,17 +34,17 @@ export class ToolbarComponent implements OnInit {
       {
         'icon': 'fa fa-folder-o',
         'command': 'Move',
-        'click': this.moveFile
+        'click': this.moveFile.bind(this)
       },
       {
         'icon': 'fa fa-files-o',
         'command': 'Make a Copy',
-        'click': this.duplicateFile
+        'click': this.duplicateFile.bind(this)
       },
       {
         'icon': 'fa fa-trash-o',
         'command': 'Trash',
-        'click': this.deleteFile
+        'click': this.deleteFile.bind(this)
       }
     ]
   }
@@ -79,7 +78,10 @@ export class ToolbarComponent implements OnInit {
   }
 
   duplicateFile(): void {
-    // this.modalService.open(DuplicateComponent);
-    this.fileService.duplicateFile("1");
+    let fileIds: string[];
+    fileIds = this.fileService.getSelections();
+    for(let index = 0 ; index < fileIds.length; index++){
+      this.fileService.duplicateFile(fileIds[index]);
+    }
   }
 }

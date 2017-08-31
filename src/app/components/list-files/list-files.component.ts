@@ -1,5 +1,5 @@
 import {FileService} from './../../services/file.service';
-import {Component, ElementRef, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, Input} from '@angular/core';
 
 @Component({
   selector: 'app-list-files',
@@ -7,26 +7,20 @@ import {Component, ElementRef, OnInit, ViewChild, AfterViewInit} from '@angular/
   styleUrls: ['./list-files.component.css']
 })
 export class ListFilesComponent implements OnInit {
-  private files: file[];
+  @Input("files") files: file[];
   @ViewChild('fileListTable') fileListEl: ElementRef;
 
 
   constructor(private fileService: FileService) {
-    this.fileService.getFilesBelongsToAUser().subscribe(files => {
-      this.files = files;
-    });
-  }
-
-  ngAfterViewInit() {
-
+    // this.fileService.getFilesBelongsToAUser().subscribe(files => {
+    //   this.files = files;
+    // });
   }
 
   ngOnInit() {
   }
 
-
   onSelectionChange() {
-    // this.fileService.setSelections(this.input.nativeElement.value);
     let x = this.fileListEl.nativeElement.querySelectorAll('input:checked');
     let fileIds: string[] = [];
     for (let i = 0; i < x.length; i++) {
