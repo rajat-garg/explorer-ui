@@ -4,6 +4,7 @@ import {FileService} from './../../services/file.service';
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TagFileComponent} from "../tag-file/tag-file.component";
+import {CreateFileComponent} from "../create-file/create-file.component";
 
 @Component({
   selector: 'app-toolbar',
@@ -124,5 +125,9 @@ export class ToolbarComponent implements OnInit, OnChanges {
     for (let index = 0; index < fileIds.length; index++) {
       this.fileService.duplicateFile(fileIds[index]);
     }
+  }
+
+  createFile(){
+    this.modalService.open(CreateFileComponent);
   }
 }

@@ -46,7 +46,7 @@ import { FileEditorComponent } from './components/file-editor/file-editor.compon
   ],
   providers: [FileService, NgbActiveModal, NgSwitch],
   bootstrap: [AppComponent],
-  entryComponents: [RenameComponent, DeleteComponent, TagFileComponent]
+  entryComponents: [RenameComponent, DeleteComponent, TagFileComponent, CreateFileComponent]
 })
 export class AppModule {
 }

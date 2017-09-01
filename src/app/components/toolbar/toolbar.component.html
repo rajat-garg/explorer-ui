@@ -1,3 +1,4 @@
+<button type="button" class="btn btn-primary" (click)="createFile()"> <i class="fa fa-file-text" aria-hidden="true"></i> New File</button>
 <ul class="nav flex-column" *ngFor="let button of toolbarButtons">
   <li class="nav-item">
     <a class="nav-link" [attr.href]="isDisabled() ? null : '#'"

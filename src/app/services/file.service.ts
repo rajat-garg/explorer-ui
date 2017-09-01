@@ -1,6 +1,7 @@
 import {Headers, Http, RequestOptions} from '@angular/http';
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
+import {file} from "../components/list-files/list-files.component";
 
 @Injectable()
 export class FileService {
@@ -13,11 +14,15 @@ export class FileService {
   }
 
   getFilesBelongsToAUser() {
-    return this.http.get('http://localhost:8080/rest/users/2/files').map(res => res.json());
+    let observable = this.http.get('http://localhost:8080/rest/users/2/files').map(res => res.json());
+    return observable;
   }
 
   refreshFileList() {
     this.getFilesBelongsToAUser();
+    //create a subject instance
+    //push it into here
+    //subscribe it in every component
   }
 
   renameFile(fileId: string, fileName: string) {
@@ -43,10 +48,10 @@ export class FileService {
     }
   }
 
-  trashFile(){
+  trashFile() {
     let fileIds = this.getSelections();
-    for(let index = 0; index < fileIds.length; index++){
-      this.http.patch('http://localhost:8080/rest/files/' + fileIds[index]+ '/trash', new RequestOptions({
+    for (let index = 0; index < fileIds.length; index++) {
+      this.http.patch('http://localhost:8080/rest/files/' + fileIds[index] + '/trash', new RequestOptions({
         headers: new Headers({
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -87,7 +92,7 @@ export class FileService {
   tagFile(tagName: string) {
     let tag = {"tag": tagName};
     let fileIds = this.getSelections();
-    this.http.patch('http://localhost:8080/rest/files/' + this.userId  + '/tag/' + fileIds[0], JSON.stringify(tag), new RequestOptions({
+    this.http.patch('http://localhost:8080/rest/files/' + this.userId + '/tag/' + fileIds[0], JSON.stringify(tag), new RequestOptions({
       headers: new Headers({
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -97,12 +102,22 @@ export class FileService {
     });
   }
 
-  getTaggedFile(tagName: string){
-    return this.http.get('http://localhost:8080/rest/files/search/' + this.userId + '/tag/' + tagName).map(res => res.json());
+  getTaggedFile(tagName: string) {
+    return this.http.get('http://localhost:8080/rest/files/search/' + this.userId + '/tag/' + tagName)
+      .map(res => res.json());
   }
 
-  createFile(content: string){
-    return this.http.post('http://localhost:8080/rest/files/' + this.userId, JSON.stringify('')).map(res => res.json()).subscribe();
+  createFile(fileName: string) {
+    let fileRecord: file = {} as file;
+    fileRecord.name = fileName;
+    return this.http.post('http://localhost:8080/rest/files/' + this.userId, {"name": fileName})
+      .map(res => JSON.stringify(res))
+      .subscribe((m) => {
+        console.log(m)
+      });
   }
 
+  updateFile(content: string) {
+
+  }
 }
