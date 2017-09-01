@@ -1,11 +1,12 @@
 <div class="list-group" id="list-tab" role="tablist">
-  <a href="#" class="list-group-item list-group-item-action active" id="file-list" data-toggle="list" href="#file-list" role="tab" aria-controls="file">Files</a>
-  <a href="#" class="list-group-item list-group-item-action" id="new-file" data-toggle="list">New File</a>
-  <a href="#" class="list-group-item list-group-item-action" id="new-folder" data-toggle="list">New Folder</a>
-  <a href="#" class="list-group-item list-group-item-action" id="upload-file" data-toggle="list">Upload Files</a>
-  <a href="#" class="list-group-item list-group-item-action" id="shared-file" data-toggle="list" href="#shared-file" role="tab" aria-controls="sharedFile">Shared With Me</a>
-  <a href="#" class="list-group-item list-group-item-action" id="trashed-file" data-toggle="list" href="#trashed-file" role="tab" aria-controls="trashedFile">Trashed Files</a>
-  <a href="#" class="list-group-item list-group-item-action" id="important-file" data-toggle="list" href="#important-file" role="tab" aria-controls="imp">Important Files</a>
-  <a href="#" class="list-group-item list-group-item-action" id="personal-file" data-toggle="list" href="#personal-file" role="tab" aria-controls="personal">Personal Files</a>
-  <a href="#" class="list-group-item list-group-item-action" id="favorite-file" data-toggle="list" href="#favorite-file" role="tab" aria-controls="fav">Favorite Files</a>
+  <a class="list-group-item list-group-item-action active" (click)="setCurrentView('file-list')" id="file-list" data-toggle="list" href="#file-list" role="tab" aria-controls="file">Files</a>
+  <a class="list-group-item list-group-item-action" id="new-file" (click)="setCurrentView('new-file')" data-toggle="list">New File</a>
+  <a class="list-group-item list-group-item-action" id="new-folder" (click)="setCurrentView('new-folder')" data-toggle="list">New Folder</a>
+  <a class="list-group-item list-group-item-action" id="upload-file" (click)="setCurrentView('upload-files')" data-toggle="list">Upload Files</a>
+  <a class="list-group-item list-group-item-action" id="shared-file" (click)="setCurrentView('shared-file')" data-toggle="list" href="#shared-file" role="tab" aria-controls="sharedFile">Shared With Me</a>
+  <a class="list-group-item list-group-item-action" id="trashed-file" (click)="setCurrentView('trashed-file')" data-toggle="list" href="#trashed-file" role="tab" aria-controls="trashedFile">Trashed Files</a>
+  <a class="list-group-item list-group-item-action" id="important-file" (click)="setCurrentView('important-file')" data-toggle="list" href="#important-file" role="tab" aria-controls="imp">Important Files</a>
+  <a class="list-group-item list-group-item-action" id="personal-file" (click)="setCurrentView('personal-file')" data-toggle="list" href="#personal-file" role="tab" aria-controls="personal">Personal Files</a>
+  <a class="list-group-item list-group-item-action" id="favorite-file" (click)="setCurrentView('favorite-file')" data-toggle="list" href="#favorite-file" role="tab" aria-controls="fav">Favorite Files</a>
 </div>
+

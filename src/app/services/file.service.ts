@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class FileService {
   private _selections: string[];
+  private userId = 2;
 
   constructor(private http: Http) {
     console.log('File Service Initialized...');
@@ -42,6 +43,20 @@ export class FileService {
     }
   }
 
+  trashFile(){
+    let fileIds = this.getSelections();
+    for(let index = 0; index < fileIds.length; index++){
+      this.http.patch('http://localhost:8080/rest/files/' + fileIds[index]+ '/trash', new RequestOptions({
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        })
+      })).subscribe((m) => {
+        console.log(m);
+      })
+    }
+  }
+
   setSelections(fileIds: string[]) {
     this._selections = fileIds;
   }
@@ -66,6 +81,28 @@ export class FileService {
   }
 
   getTrashedFiles() {
-    return this.http.get('http://localhost:8080/rest/users/2/sharedFiles').map(res => res.json());
+    return this.http.get('http://localhost:8080/rest/files/2/trash').map(res => res.json());
   }
+
+  tagFile(tagName: string) {
+    let tag = {"tag": tagName};
+    let fileIds = this.getSelections();
+    this.http.patch('http://localhost:8080/rest/files/' + this.userId  + '/tag/' + fileIds[0], JSON.stringify(tag), new RequestOptions({
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      })
+    })).subscribe((m) => {
+      console.log(m)
+    });
+  }
+
+  getTaggedFile(tagName: string){
+    return this.http.get('http://localhost:8080/rest/files/search/' + this.userId + '/tag/' + tagName).map(res => res.json());
+  }
+
+  createFile(content: string){
+    return this.http.post('http://localhost:8080/rest/files/' + this.userId, JSON.stringify('')).map(res => res.json()).subscribe();
+  }
+
 }

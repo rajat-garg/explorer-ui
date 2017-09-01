@@ -1,8 +1,9 @@
 import {DeleteComponent} from '../delete/delete.component';
 import {RenameComponent} from './../rename/rename.component';
 import {FileService} from './../../services/file.service';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {TagFileComponent} from "../tag-file/tag-file.component";
 
 @Component({
   selector: 'app-toolbar',
@@ -10,13 +11,18 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./toolbar.component.css']
 })
 
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent implements OnInit, OnChanges {
 
   @Input() selections: string[] = [];
+  @Input() currentView: string = '';
   private toolbarButtons: any[];
 
   constructor(private fileService: FileService, private modalService: NgbModal) {
-    this.toolbarButtons = [{
+    this.toolbarButtons = this.getDefaultButtons();
+  }
+
+  private getDefaultButtons() {
+    return [{
       'icon': 'fa fa-share-alt',
       'command': 'Share',
       'click': this.shareFile.bind(this)
@@ -43,13 +49,36 @@ export class ToolbarComponent implements OnInit {
       },
       {
         'icon': 'fa fa-trash-o',
-        'command': 'Trash',
+        'command': 'Delete',
         'click': this.deleteFile.bind(this)
-      }
-    ]
+      },
+      {
+        'icon': 'fa fa-tags',
+        'command': 'Tags',
+        'click': this.tagFile.bind(this)
+      },
+      {
+        'icon': 'fa fa-trash',
+        'command': 'Move To Trash',
+        'click': this.trashFile.bind(this)
+      },
+    ];
+  }
+
+  ngOnChanges() {
+    this.toolbarButtons = this.getDefaultButtons();
+
+    if (this.currentView === 'trashed-file') {
+      this.toolbarButtons.push({
+        'icon': 'fa fa-share',
+        'command': 'Restore',
+        'click': this.restoreFile.bind(this)
+      })
+    }
   }
 
   ngOnInit() {
+
   }
 
   renameFile(): string {
@@ -61,8 +90,12 @@ export class ToolbarComponent implements OnInit {
     const modelRef = this.modalService.open(DeleteComponent, {windowClass: 'dark-modal'});
   }
 
+  tagFile(): void {
+    this.modalService.open(TagFileComponent);
+  }
+
   isDisabled(): boolean {
-    return this.selections.length <= 0;
+    return this.selections && this.selections.length <= 0;
   }
 
   shareFile(): string {
@@ -77,10 +110,18 @@ export class ToolbarComponent implements OnInit {
     return "";
   }
 
+  trashFile(): void {
+    this.fileService.trashFile();
+  }
+
+  restoreFile(): void {
+    this.fileService.trashFile();
+  }
+
   duplicateFile(): void {
     let fileIds: string[];
     fileIds = this.fileService.getSelections();
-    for(let index = 0 ; index < fileIds.length; index++){
+    for (let index = 0; index < fileIds.length; index++) {
       this.fileService.duplicateFile(fileIds[index]);
     }
   }

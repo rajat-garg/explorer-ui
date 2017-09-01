@@ -1,14 +1,15 @@
 import {FileService} from './../../services/file.service';
-import {Component, ElementRef, OnInit, ViewChild, Input} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 
 @Component({
   selector: 'app-list-files',
   templateUrl: './list-files.component.html',
   styleUrls: ['./list-files.component.css']
 })
-export class ListFilesComponent implements OnInit {
+export class ListFilesComponent implements OnInit, OnDestroy {
   @Input("files") files: file[];
   @ViewChild('fileListTable') fileListEl: ElementRef;
+  @Output() currentFile = new EventEmitter<string>();
 
 
   constructor(private fileService: FileService) {
@@ -27,6 +28,14 @@ export class ListFilesComponent implements OnInit {
       fileIds.push(x[i].value);
     }
     this.fileService.setSelections(fileIds);
+  }
+
+  ngOnDestroy() {
+    this.fileService.setSelections([]);
+  }
+
+  setCurrentFile(fileId: string) {
+    this.currentFile.emit(fileId);
   }
 }
 

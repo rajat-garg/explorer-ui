@@ -1,14 +1,20 @@
 <h1>Explorer</h1><br>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
-            <app-sidebar></app-sidebar>
-        </div>
-        <div class="col-md-8">
-            <app-list-files [files]="files"></app-list-files>
-        </div>
-        <div class="col-md-2">
-            <app-toolbar [selections]="fileService.getSelections()"></app-toolbar>
-        </div>
+  <div class="row">
+    <div class="col-md-2">
+      <app-sidebar (viewChanged)="setCurrentView($event)"></app-sidebar>
     </div>
+    <div class="col-md-8" [ngSwitch]="currentView">
+      <app-create-file *ngSwitchCase="'new-file'"></app-create-file>
+      <app-trashed-file *ngSwitchCase="'trashed-file'"></app-trashed-file>
+      <app-imp-files *ngSwitchCase="'important-file'"></app-imp-files>
+      <app-favorite-files *ngSwitchCase="'favorite-file'"></app-favorite-files>
+      <app-personal-files *ngSwitchCase="'personal-file'"></app-personal-files>
+      <app-file-editor *ngSwitchCase="'file-editor'" [currentFile]="currentFile"></app-file-editor>
+      <app-list-files *ngSwitchDefault [files]="files" (currentFile)="setCurrentFile($event)"></app-list-files>
+    </div>
+    <div class="col-md-2">
+      <app-toolbar [selections]="fileService.getSelections()" [currentView]="currentView"></app-toolbar>
+    </div>
+  </div>
 </div>
