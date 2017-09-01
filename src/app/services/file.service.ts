@@ -117,7 +117,12 @@ export class FileService {
       });
   }
 
-  updateFile(content: string) {
-
+  updateFile(file: file, content: string) {
+    let fileContent = {"content": content};
+    return this.http.patch('http://localhost:8080/rest/files/' + file.id, JSON.stringify(fileContent))
+      .map(res => JSON.stringify(res))
+      .subscribe((m) => {
+        console.log(m);
+      });
   }
 }
