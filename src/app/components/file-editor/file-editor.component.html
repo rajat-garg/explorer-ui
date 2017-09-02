@@ -1,0 +1,15 @@
+<div *ngIf="!currentFile.folder;else folderTemplate">
+  <div class="modal-header">
+    <h4 class="modal-title">{{this.currentFile.name}}</h4>
+  </div>
+  <div class="modal-body">
+    <textarea class="form form-control" #fileText placeholder="Enter Content" value="{{currentFile.fileContent.content}}"></textarea>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-info" (click)="updateContent(this.currentFile,fileText.value)">Save!!!</button>
+  </div>
+</div>
+
+<ng-template #folderTemplate>
+  Oops you don't have files.
+</ng-template>

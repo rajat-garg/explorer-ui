@@ -1,0 +1,31 @@
+<div class="tab-content" id="list-tab">
+  <div class="tab-pane fade show active" id="shared-file" role="tabpanel" aria-labelledby="shared-file">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Size</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let file of sharedFiles">
+      <tr>
+        <th scope="row">
+          <input type="checkbox" name="files" value="{{file.id}}" (change)="fileService.setSelections(file.id,$event)">
+        </th>
+        <td *ngIf="file.folder;else fileIcon">
+          <i class="fa fa-folder-open-o" aria-hidden="true"></i> {{file.name}}
+        </td>
+        <ng-template #fileIcon>
+          <td><i class="fa fa-file-o" aria-hidden="true"></i> {{file.name}}</td>
+          <td>{{file.type}}</td>
+
+        </ng-template>
+        <td *ngIf="file.folder"></td>
+        <td>{{file.size}}KB</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
