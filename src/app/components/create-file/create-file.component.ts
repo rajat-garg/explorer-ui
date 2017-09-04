@@ -8,7 +8,6 @@ import {FileService} from "../../services/file.service";
   styleUrls: ['./create-file.component.css']
 })
 export class CreateFileComponent implements OnInit {
-
   constructor(public activeModal: NgbActiveModal, public fileService: FileService) {
 
   }

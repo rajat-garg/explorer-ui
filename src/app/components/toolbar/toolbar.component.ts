@@ -1,7 +1,7 @@
 import {DeleteComponent} from '../delete/delete.component';
 import {RenameComponent} from './../rename/rename.component';
 import {FileService} from './../../services/file.service';
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TagFileComponent} from "../tag-file/tag-file.component";
 import {CreateFileComponent} from "../create-file/create-file.component";
@@ -127,7 +127,13 @@ export class ToolbarComponent implements OnInit, OnChanges {
     }
   }
 
-  createFile(){
+  createFile() {
+    this.fileService.folder = false;
+    this.modalService.open(CreateFileComponent);
+  }
+
+  createFolder() {
+    this.fileService.folder = true;
     this.modalService.open(CreateFileComponent);
   }
 }

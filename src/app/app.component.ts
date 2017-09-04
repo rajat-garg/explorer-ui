@@ -30,8 +30,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fileService.getFilesBelongsToAUser().subscribe(files => {
-      this.files = files;
-    });
+    //Load files in the starting of the application.
+    this.fileService.trashFile()
   }
 }

@@ -1,4 +1,5 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {FileService} from "../../services/file.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -8,7 +9,7 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 export class SidebarComponent implements OnInit {
   @Output() viewChanged = new EventEmitter<string>();
 
-  constructor() {
+  constructor(private fileService: FileService) {
   }
 
   setCurrentView(view: string) {

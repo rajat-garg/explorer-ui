@@ -15,7 +15,7 @@
           <input type="checkbox" name="files" value="{{file.id}}" (change)="onSelectionChange()">
         </th>
         <td *ngIf="file.folder;else fileIcon">
-          <a href="">
+          <a (click)="loadFiles(file.id)" href="javascript:void(0);" >
             <i class="fa fa-folder-open-o" aria-hidden="true"></i> {{file.name}}
           </a>
         </td>

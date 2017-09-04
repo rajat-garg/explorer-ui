@@ -11,14 +11,16 @@ export class ListFilesComponent implements OnInit, OnDestroy {
   @ViewChild('fileListTable') fileListEl: ElementRef;
   @Output() currentFile = new EventEmitter<string>();
 
-
   constructor(private fileService: FileService) {
-    // this.fileService.getFilesBelongsToAUser().subscribe(files => {
-    //   this.files = files;
-    // });
+
   }
 
   ngOnInit() {
+    this.files = [];
+    this.fileService.getFilesBelongsToAUser().subscribe(files => {
+      this.files = files;
+    });
+    this.fileService.fileSubject.subscribe(files => this.files = files)
   }
 
   onSelectionChange() {
@@ -36,6 +38,13 @@ export class ListFilesComponent implements OnInit, OnDestroy {
 
   setCurrentFile(fileId: string) {
     this.currentFile.emit(fileId);
+  }
+
+  loadFiles(fileId: string) {
+    this.fileService.currentFolder = fileId;
+    this.fileService.getFilesOfFolder(fileId).subscribe(files => {
+      this.files = files
+    });
   }
 }
 

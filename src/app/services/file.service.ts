@@ -2,11 +2,17 @@ import {Headers, Http, RequestOptions} from '@angular/http';
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {file} from "../components/list-files/list-files.component";
+import {CreateFileComponent} from "../components/create-file/create-file.component";
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class FileService {
   private _selections: string[];
   private userId = 2;
+  public folder = false;
+  public fileSubject = new Subject<any>();
+  public currentFolder : string;
+
 
   constructor(private http: Http) {
     console.log('File Service Initialized...');
@@ -86,7 +92,12 @@ export class FileService {
   }
 
   getTrashedFiles() {
-    return this.http.get('http://localhost:8080/rest/files/2/trash').map(res => res.json());
+    return this.http.get('http://localhost:8080/rest/files/2/trash')
+      .map(res => res.json())
+      .map(files => {
+        this.fileSubject.next(files);
+        return files;
+      });
   }
 
   tagFile(tagName: string) {
@@ -107,10 +118,15 @@ export class FileService {
       .map(res => res.json());
   }
 
+  getFilesOfFolder(fileId: string) {
+    return this.http.get('http://localhost:8080/rest/files/folder/' + fileId)
+      .map(res => res.json())
+  }
+
   createFile(fileName: string) {
     let fileRecord: file = {} as file;
     fileRecord.name = fileName;
-    return this.http.post('http://localhost:8080/rest/files/' + this.userId, {"name": fileName})
+    return this.http.post('http://localhost:8080/rest/files/' + this.userId, {"name": fileName, "folder": this.folder, "parentId": this.currentFolder})
       .map(res => JSON.stringify(res))
       .subscribe((m) => {
         console.log(m)
