@@ -37,6 +37,7 @@ export class ListFilesComponent implements OnInit, OnDestroy {
   }
 
   setCurrentFile(fileId: string) {
+    console.log("current file called", fileId);
     this.currentFile.emit(fileId);
   }
 

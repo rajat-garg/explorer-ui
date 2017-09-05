@@ -8,6 +8,6 @@
   <p><input type="text" name="fileName" class="form-control" #fileName/></p>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-warning" (click)="renameFile(fileName.value)">Rename!!!</button>
+  <button type="button" class="btn btn-warning" (click)="renameFile(fileName.value)" (click)="activeModal.close('Close click')">Rename!!!</button>
   <button type="button" class="btn btn-danger" (click)="activeModal.close('Close click')">Close</button>
 </div>

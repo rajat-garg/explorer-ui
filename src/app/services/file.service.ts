@@ -126,7 +126,11 @@ export class FileService {
   createFile(fileName: string) {
     let fileRecord: file = {} as file;
     fileRecord.name = fileName;
-    return this.http.post('http://localhost:8080/rest/files/' + this.userId, {"name": fileName, "folder": this.folder, "parentId": this.currentFolder})
+    return this.http.post('http://localhost:8080/rest/files/' + this.userId, {
+      "name": fileName,
+      "folder": this.folder,
+      "parentId": this.currentFolder
+    })
       .map(res => JSON.stringify(res))
       .subscribe((m) => {
         console.log(m)
@@ -140,5 +144,21 @@ export class FileService {
       .subscribe((m) => {
         console.log(m);
       });
+  }
+
+  uploadFile(formData: FormData) {
+    formData.append("parentId",this.currentFolder);
+    return this.http.post('http://localhost:8080/rest/upload', formData)
+      .map(res => JSON.stringify(res))
+      .subscribe((m) => {
+        console.log(m);
+      })
+  }
+
+  downloadFile(fileId: string){
+    console.log("Inside me!!" , 'http://localhost:8080/rest/download/' + fileId);
+    this.http.get('http://localhost:8080/rest/download/' + fileId).map(res => JSON.stringify(res)).subscribe(file => {
+      console.log(file);
+    });
   }
 }

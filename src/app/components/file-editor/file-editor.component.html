@@ -1,4 +1,4 @@
-<div *ngIf="!currentFile.folder;else folderTemplate">
+<div *ngIf="currentFile && !currentFile.folder;else folderTemplate">
   <div class="modal-header">
     <h4 class="modal-title">{{this.currentFile.name}}</h4>
   </div>

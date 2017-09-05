@@ -104,10 +104,17 @@ export class ToolbarComponent implements OnInit, OnChanges {
   }
 
   downloadFile(): string {
+    console.log("Inside download file!!!");
+    let fileIds: string[];
+    fileIds = this.fileService.getSelections();
+    for (let index = 0; index < fileIds.length; index++) {
+      this.fileService.downloadFile(fileIds[index]);
+    }
     return "";
   }
 
   moveFile(): string {
+    console.log("inside move");
     return "";
   }
 
@@ -135,5 +142,11 @@ export class ToolbarComponent implements OnInit, OnChanges {
   createFolder() {
     this.fileService.folder = true;
     this.modalService.open(CreateFileComponent);
+  }
+
+  uploadFile(file : File){
+    let formData = new FormData();
+    formData.append("file", file);
+    this.fileService.uploadFile(formData);
   }
 }

@@ -8,6 +8,6 @@
     <p>Do You want to delete it?</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-warning" (click)="deleteFile()">Delete it!!</button>
-    <button type="button" class="btn btn-outline-light" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-danger" (click)="deleteFile()" (click)="activeModal.close('Close click')">Delete it!!</button>
+    <button type="button" class="btn btn-warning" (click)="activeModal.close('Close click')">Close</button>
   </div>
