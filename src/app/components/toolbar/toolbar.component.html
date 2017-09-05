@@ -15,9 +15,12 @@
     <a class="nav-link" [attr.href]="isDisabled() ? null : '#'"
        [class.disabled]="isDisabled() ||
        ( button.command == 'Rename' && selections.length > 1) ||
+       (button.command == 'Tags' && selections.length > 1) ||
+       (button.command == 'Make a Copy' && selections.length > 1) ||
+       (!enablePaste && button.command == 'Paste') ||
        (currentView == 'trashed-file' && button.command != 'Delete' && button.command != 'Restore')"
-       (click)="!isDisabled() && button.click()"><i
-      class={{button.icon}} aria-hidden="true"></i> {{button.command}}</a>
+       (click)="!isDisabled() && button.click()">
+      <i class={{button.icon}} aria-hidden="true"></i> {{button.command}}</a>
   </li>
 </ul>
 

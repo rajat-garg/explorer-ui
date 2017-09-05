@@ -17,6 +17,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
   @Input() selections: string[] = [];
   @Input() currentView: string = '';
   private toolbarButtons: any[];
+  private enablePaste: boolean = false;
 
   constructor(private fileService: FileService, private modalService: NgbModal) {
     this.toolbarButtons = this.getDefaultButtons();
@@ -63,6 +64,11 @@ export class ToolbarComponent implements OnInit, OnChanges {
         'command': 'Move To Trash',
         'click': this.trashFile.bind(this)
       },
+      {
+        'icon': 'fa fa-clipboard',
+        'command': 'Paste',
+        'click': this.pasteFile.bind(this)
+      }
     ];
   }
 
@@ -103,19 +109,24 @@ export class ToolbarComponent implements OnInit, OnChanges {
     return "";
   }
 
-  downloadFile(): string {
+  downloadFile(): void {
     console.log("Inside download file!!!");
     let fileIds: string[];
     fileIds = this.fileService.getSelections();
+    console.log("Length: " + fileIds.length);
     for (let index = 0; index < fileIds.length; index++) {
       this.fileService.downloadFile(fileIds[index]);
     }
-    return "";
   }
 
-  moveFile(): string {
+  pasteFile(): void{
+      console.log("Inside Paste");
+      this.fileService.pasteFile();
+  }
+
+  moveFile(): void {
     console.log("inside move");
-    return "";
+    this.enablePaste = true;
   }
 
   trashFile(): void {
@@ -144,7 +155,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
     this.modalService.open(CreateFileComponent);
   }
 
-  uploadFile(file : File){
+  uploadFile(file: File) {
     let formData = new FormData();
     formData.append("file", file);
     this.fileService.uploadFile(formData);

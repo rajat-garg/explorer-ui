@@ -20,13 +20,15 @@ export class AppComponent implements OnInit {
     // this.fileService.setSelections(null);
   }
 
-  setCurrentFile(currentFile: string) {
-    for (let file of this.files) {
-      if (file.id == currentFile) {
-        this.currentFile = file;
-        console.log(file);
-      }
-    }
+  setCurrentFile(currentFileId: string) {
+    // for (let file of this.files) {
+    //   if (file.id == currentFileId) {
+    //     this.currentFile = file;
+    //     console.log(file);
+    //   }
+    // }
+    console.log(currentFileId);
+    this.fileService.getFileById(currentFileId).subscribe(m => this.currentFile = m);
     this.currentView = 'file-editor';
   }
 

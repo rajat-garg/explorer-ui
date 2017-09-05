@@ -18,8 +18,8 @@ import {PersonalFilesComponent} from './components/personal-files/personal-files
 import {FavoriteFilesComponent} from './components/favorite-files/favorite-files.component';
 import {TagFileComponent} from './components/tag-file/tag-file.component';
 import {NgSwitch} from "@angular/common";
-import { CreateFileComponent } from './components/create-file/create-file.component';
-import { FileEditorComponent } from './components/file-editor/file-editor.component';
+import {CreateFileComponent} from './components/create-file/create-file.component';
+import {FileEditorComponent} from './components/file-editor/file-editor.component';
 
 @NgModule({
   declarations: [

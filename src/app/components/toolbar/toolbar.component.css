@@ -6,3 +6,7 @@
 #folder{
   margin-bottom: 10px;
 }
+
+a.disabled {
+  cursor: not-allowed;
+}

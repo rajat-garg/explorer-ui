@@ -2,8 +2,8 @@ import {Headers, Http, RequestOptions} from '@angular/http';
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {file} from "../components/list-files/list-files.component";
-import {CreateFileComponent} from "../components/create-file/create-file.component";
 import {Subject} from "rxjs/Subject";
+import {swalDefaultsProvider} from "@toverux/ngsweetalert2/dist/types+es2015-modules/src/di";
 
 @Injectable()
 export class FileService {
@@ -11,7 +11,7 @@ export class FileService {
   private userId = 2;
   public folder = false;
   public fileSubject = new Subject<any>();
-  public currentFolder : string;
+  public currentFolder: string = '000';
 
 
   constructor(private http: Http) {
@@ -46,12 +46,12 @@ export class FileService {
 
   deleteFile() {
     let fileIds = this.getSelections();
-    for (let index = 0; index < fileIds.length; index++) {
-      console.log(fileIds[index]);
-      this.http.delete('http://localhost:8080/rest/files/2/' + fileIds[index])
-        .map(res => JSON.stringify(res))
-        .subscribe();
-    }
+    this.http.delete('http://localhost:8080/rest/files/2/' + fileIds)
+      .map(res => JSON.stringify(res))
+      .subscribe(m => {
+        console.log(m);
+        this.getFilesBelongsToAUser().subscribe(m => this.fileSubject.next(m))
+      });
   }
 
   trashFile() {
@@ -64,6 +64,7 @@ export class FileService {
         })
       })).subscribe((m) => {
         console.log(m);
+        this.getFilesBelongsToAUser().subscribe(m => this.fileSubject.next(m));
       })
     }
   }
@@ -84,6 +85,7 @@ export class FileService {
       })
     })).subscribe(m => {
       console.log(m);
+      this.getFilesBelongsToAUser().subscribe(m => this.fileSubject.next(m));
     });
   }
 
@@ -109,7 +111,8 @@ export class FileService {
         'Accept': 'application/json'
       })
     })).subscribe((m) => {
-      console.log(m)
+      console.log(m);
+      this.getFilesBelongsToAUser().subscribe(m => this.fileSubject.next(m));
     });
   }
 
@@ -134,31 +137,58 @@ export class FileService {
       .map(res => JSON.stringify(res))
       .subscribe((m) => {
         console.log(m)
+        this.getFilesBelongsToAUser().subscribe(m => this.fileSubject.next(m));
       });
   }
 
   updateFile(file: file, content: string) {
     let fileContent = {"content": content};
     return this.http.patch('http://localhost:8080/rest/files/' + file.id, JSON.stringify(fileContent))
-      .map(res => JSON.stringify(res))
+      .map(res => res.text())
       .subscribe((m) => {
         console.log(m);
       });
   }
 
   uploadFile(formData: FormData) {
-    formData.append("parentId",this.currentFolder);
+    formData.append("parentId", (this.currentFolder));
     return this.http.post('http://localhost:8080/rest/upload', formData)
       .map(res => JSON.stringify(res))
       .subscribe((m) => {
-        console.log(m);
+        alert("File Uploaded Successfully!!!");
+        this.getFilesBelongsToAUser().subscribe(m => this.fileSubject.next(m));
       })
   }
 
-  downloadFile(fileId: string){
-    console.log("Inside me!!" , 'http://localhost:8080/rest/download/' + fileId);
-    this.http.get('http://localhost:8080/rest/download/' + fileId).map(res => JSON.stringify(res)).subscribe(file => {
-      console.log(file);
-    });
+  pasteFile() {
+    let destination = this.currentFolder;
+    //files To Move
+    let fileIds = this.getSelections();
+    console.log("Destination: ", destination, "Resource", fileIds.length);
+
+    for (let index = 0; index < fileIds.length; index++) {
+      this.http.patch('http://localhost:8080/rest/files/' + fileIds[index] + '/move', {
+        "destination": destination
+      })
+        .map(res => JSON.stringify(res))
+        .subscribe(m => console.log(m));
+        this.getFilesBelongsToAUser().subscribe(m => this.fileSubject.next(m));
+    }
+  }
+
+  downloadFile(fileId: string) {
+    let downloadFile = 'http://localhost:8080/rest/download/' + fileId;
+    window.open(downloadFile, '_blank', "windowName");
+    this.getFilesBelongsToAUser().subscribe(m => this.fileSubject.next(m));
+  }
+
+  readFile(fileId: string) {
+    let url = 'http://localhost:8080/rest/download/' + fileId;
+    return this.http.get(url).map(res => res.text());
+  }
+
+  getFileById(fileId: string) {
+    return this.http.get('http://localhost:8080/rest/files/' + fileId)
+      .map(res => res.json());
   }
 }
