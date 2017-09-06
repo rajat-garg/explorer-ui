@@ -90,7 +90,8 @@ export class FileService {
   }
 
   getSharedFiles() {
-    return this.http.get('http://localhost:8080/rest/users/2/sharedFiles').map(res => res.json());
+    return this.http.get('http://localhost:8080/rest/users/2/sharedFiles')
+      .map(res => res.json());
   }
 
   getTrashedFiles() {
@@ -116,6 +117,19 @@ export class FileService {
     });
   }
 
+  shareFile(permission: string) {
+    let ownerId = 2;
+    let userId = 1;
+    let fileIds = this.getSelections();
+    for (let index = 0; index < fileIds.length; index++) {
+      this.http.patch('http://localhost:8080/rest/permissions/' + ownerId + '/' + fileIds[index] + '/' + userId + '/' + permission, JSON.stringify(""))
+        .map(res => res.text())
+        .subscribe(m => {
+          console.log(m);
+        });
+    }
+  }
+
   getTaggedFile(tagName: string) {
     return this.http.get('http://localhost:8080/rest/files/search/' + this.userId + '/tag/' + tagName)
       .map(res => res.json());
@@ -136,7 +150,7 @@ export class FileService {
     })
       .map(res => JSON.stringify(res))
       .subscribe((m) => {
-        console.log(m)
+        console.log(m);
         this.getFilesBelongsToAUser().subscribe(m => this.fileSubject.next(m));
       });
   }
@@ -172,7 +186,7 @@ export class FileService {
       })
         .map(res => JSON.stringify(res))
         .subscribe(m => console.log(m));
-        this.getFilesBelongsToAUser().subscribe(m => this.fileSubject.next(m));
+      this.getFilesBelongsToAUser().subscribe(m => this.fileSubject.next(m));
     }
   }
 
@@ -191,4 +205,6 @@ export class FileService {
     return this.http.get('http://localhost:8080/rest/files/' + fileId)
       .map(res => res.json());
   }
+
+
 }

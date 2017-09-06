@@ -10,6 +10,7 @@
       <app-favorite-files *ngSwitchCase="'favorite-file'"></app-favorite-files>
       <app-personal-files *ngSwitchCase="'personal-file'"></app-personal-files>
       <app-file-editor *ngSwitchCase="'file-editor'" [currentFile]="currentFile"></app-file-editor>
+      <app-shared-file *ngSwitchCase="'shared-file'"></app-shared-file>
       <app-list-files *ngSwitchDefault [files]="files" (currentFile)="setCurrentFile($event)"></app-list-files>
     </div>
     <div class="col-md-2">

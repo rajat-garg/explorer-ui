@@ -20,6 +20,7 @@ import {TagFileComponent} from './components/tag-file/tag-file.component';
 import {NgSwitch} from "@angular/common";
 import {CreateFileComponent} from './components/create-file/create-file.component';
 import {FileEditorComponent} from './components/file-editor/file-editor.component';
+import { ShareFileComponent } from './components/share-file/share-file.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {FileEditorComponent} from './components/file-editor/file-editor.componen
     TagFileComponent,
     CreateFileComponent,
     FileEditorComponent,
+    ShareFileComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +48,7 @@ import {FileEditorComponent} from './components/file-editor/file-editor.componen
   ],
   providers: [FileService, NgbActiveModal, NgSwitch],
   bootstrap: [AppComponent],
-  entryComponents: [RenameComponent, DeleteComponent, TagFileComponent, CreateFileComponent]
+  entryComponents: [RenameComponent, DeleteComponent, TagFileComponent, CreateFileComponent, ShareFileComponent]
 })
 export class AppModule {
 }

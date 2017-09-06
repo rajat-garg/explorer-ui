@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FileService} from "../../services/file.service";
 import {file} from "../list-files/list-files.component";
 
@@ -7,7 +7,7 @@ import {file} from "../list-files/list-files.component";
   templateUrl: './shared-file.component.html',
   styleUrls: ['./shared-file.component.css']
 })
-export class SharedFileComponent implements OnInit {
+export class SharedFileComponent implements OnInit, OnDestroy {
   private sharedFiles: file[];
 
   constructor(private fileService: FileService) {
@@ -17,6 +17,10 @@ export class SharedFileComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.fileService.setSelections([]);
   }
 
 }

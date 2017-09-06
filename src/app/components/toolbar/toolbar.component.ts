@@ -5,6 +5,7 @@ import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TagFileComponent} from "../tag-file/tag-file.component";
 import {CreateFileComponent} from "../create-file/create-file.component";
+import {ShareFileComponent} from "../share-file/share-file.component";
 
 @Component({
   selector: 'app-toolbar',
@@ -105,8 +106,8 @@ export class ToolbarComponent implements OnInit, OnChanges {
     return this.selections && this.selections.length <= 0;
   }
 
-  shareFile(): string {
-    return "";
+  shareFile(): void {
+    this.modalService.open(ShareFileComponent);
   }
 
   downloadFile(): void {

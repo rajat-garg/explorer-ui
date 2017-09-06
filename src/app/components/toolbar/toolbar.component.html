@@ -18,6 +18,7 @@
        (button.command == 'Tags' && selections.length > 1) ||
        (button.command == 'Make a Copy' && selections.length > 1) ||
        (!enablePaste && button.command == 'Paste') ||
+       (currentView == 'shared-file') ||
        (currentView == 'trashed-file' && button.command != 'Delete' && button.command != 'Restore')"
        (click)="!isDisabled() && button.click()">
       <i class={{button.icon}} aria-hidden="true"></i> {{button.command}}</a>
